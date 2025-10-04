@@ -72,7 +72,7 @@ the BabySoC using simulation tools (Icarus Verilog & GTKWave). </p>
     <td>View and analyze simulation waveforms</td>
   </tr>
 </table>
-<p><b>Step 1: Clone the BabySoC Project</b></p>
+<p><b>Step 1: Clone the BabySoC Project</b> [VSDBabySoC](https://github.com/manili/VSDBabySoC.git)</p>
 <p><pre>
 git clone https://github.com/hemanthkumardm/SFAL-VSD-SoCJourney.git
 cd SFAL-VSD-SoCJourney/12. VSDBabySoC Project</pre></p>
