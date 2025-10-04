@@ -54,5 +54,57 @@ the BabySoC using simulation tools (Icarus Verilog & GTKWave). </p>
 <li>Explore the interaction between digital logic and analog interfacing.</li>
 <li>Appreciate the role of functional modelling in bridging conceptual design and physical implementation.</li></ul></p>
     </ol>
+    <li><h2>Labs (Hands-on Functional Modelling)</h2></li>
+    <p>Lab Reference <br>
+[VSDBabySoC Project by Hemanth Kumar DM]<br>(https://github.com/hemanthkumardm/SFAL-VSD-SoCJourney/tree/main/12.%20VSDBabySoC%20Project)</p>
+      <p>Tools Used</p>
+<table>
+  <tr>
+    <th>Tool</th>
+    <th>Purpose</th>
+  </tr>
+  <tr>
+    <td><b>Icarus Verilog (iverilog)</b></td>
+    <td>Compile and simulate Verilog code</td>
+  </tr>
+  <tr>
+    <td><b>GTKWave</b></td>
+    <td>View and analyze simulation waveforms</td>
+  </tr>
+</table>
+<p><b>Step 1: Clone the BabySoC Project</b></p>
+<p><pre>
+git clone https://github.com/hemanthkumardm/SFAL-VSD-SoCJourney.git
+cd SFAL-VSD-SoCJourney/12. VSDBabySoC Project</pre></p>
+</p>
+    <p><b>Step 2: Step 2 – Pre-Synthesis Simulation</b></p>
+    Compile the design and run pre-synthesis simulation:
+    <p><pre>iverilog -o output/pre_synth_sim/pre_synth_sim.out -DPRE_SYNTH_SIM \
+    -I src/include -I src/module \
+    src/module/testbench.v src/module/vsdbabysoc.v
+cd output/pre_synth_sim
+./pre_synth_sim.out
+</pre> This generates a pre_synth_sim.vcd file for waveform viewing.</p>
+   <p> <img src="https://github.com/user-attachments/assets/3ce1041d-b877-4820-b105-30f63a64a585" alt="Description"></p>
+    <p>Observation:
+<ul><li>The clock (CLK) signal shows regular periodic toggling.</li>
+<li>The reset signal is asserted low at the beginning, holding the system inactive during initialization.</li>
+<li>Once reset is released, data begins flowing from the RISC-V core (RV_TO_DAC[9:0]) to the DAC output.</li>
+<li>The smooth increment in data values verifies the correct functioning of the core → DAC data path in the RTL design.</li></ul>This confirms that the BabySoC RTL modules are functionally correct before synthesis.</p>
+    <p><b>Step 3 – View Waveforms in GTKWave</b></p>
+    <p><pre>gtkwave output/pre_synth_sim/pre_synth_sim.vcd</pre>Analyze reset, clock, and dataflow behavior.</p>
+    <p><b>Step 4 – Post-Synthesis Simulation</b></p>
+    Run post-synthesis simulation using the synthesized netlist:
+    <p><pre>iverilog -o output/post_synth_sim/post_synth_sim.out -DPOST_SYNTH_SIM \
+    -I src/include -I src/module \
+    src/module/testbench.v output/synthesized/vsdbabysoc.synth.v
+cd output/post_synth_sim
+./post_synth_sim.out</pre>Then view the resulting post_synth_sim.vcd file in GTKWave.</p>
+     <p> <img src="https://github.com/user-attachments/assets/4ff91825-20bc-48d4-bb43-6635bb45b4d0" alt="Description"></p>
+  <p>Observation:
+  <ul><li>The post-synthesis waveform maintains consistent clock and reset behavior as in the pre-synthesis simulation.</li>
+<li>The core output and DAC output match the RTL results, confirming logical equivalence between synthesized and behavioral designs.</li>
+<li>Slight signal delay (timing difference) observed due to gate-level modeling — expected after synthesis.</li></ul>This verifies that synthesis preserved the intended BabySoC functionality.</p>
   </ol>
+   <p align="center"><b>✨ Thank you for reading! ✨</b></p>
 </details>
